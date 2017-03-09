@@ -50,6 +50,10 @@ def get_all_donator_records(donator):
     '/fah/api/donatorstats/v1.0/donator/<string:donator>/<int:num_recs>',
     methods=['GET'])
 def get_some_donator_records(donator, num_recs):
+  if num_recs == 0:
+    return flask.make_response(
+        flask.jsonify(
+            {'error_message': 'Invalid number of records.'}), 404)
   all_records = (
       stats.UserDataEntry.query(
           stats.UserDataEntry.username == donator).fetch(num_recs))
